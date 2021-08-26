@@ -117,13 +117,10 @@ def get_data(type="train"):
     :return: json data parsed
     """
     if type=="train":
-        with open(FLAGS.train_data) as f:
-            return json.load(f)
-    elif type=="eval":
-        with open(FLAGS.eval_data) as f:
-            return json.load(f)
+        return createDataframe(FLAGS.training_data)
     elif type=="val":
-        with open(FLAGS.val_data) as f:
-            return json.load(f)
+        return createDataframe(FLAGS.validation_data)
+    elif type=="test":
+        return createDataframe(FLAGS.test_data)
     else:
-        raise ValueError("Choice from train, eval or val data")
+        raise ValueError("Data type must be: 'train' for training, 'val' for validation or 'test' for test data")

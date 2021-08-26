@@ -6,7 +6,7 @@ def get_dataloader(input_ids,
                    labels_attributes,
                    dialog_ids,
                    turn_idx,
-                   batch_size=32,
+                   batch_size,
                    type='sequential'):
     """
 

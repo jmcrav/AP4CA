@@ -4,8 +4,9 @@ from torch import nn
 import numpy as np
 from absl import flags
 import random
-from . import utils as model_utils
+from . import utils as md_utils
 from . import loaders
+from . import model as md
 from ..simmc import utils as simmc_utils
 from ..simmc import action_evaluation as evaluation
 import time
@@ -16,24 +17,136 @@ FLAGS = flags.FLAGS
 class Runner():
 
     def __init__(self,
-                 model,
-                 device
+                 model=None,
+                 optimizer=None,
+                 scheduler=None
                  ):
         """Model runner constructor
 
         :param model: The custom BERT model to be run
         :param device: The device (GPU or TPU) for tensors manipulation
         """
-        self.model = model
-        # FIXME get type from FLAGS.device_type and build
-        self.device = device
+        # Computing device (GPU or TPU)
+        self.device = md_utils.get_device()
         # We'll store a number of quantities such as training and validation loss,
         # validation accuracy, and timings.
         self.training_stats = []
         self.test_batch = []
+        # Parameters for training loop
+        self.batch = FLAGS.batch_size
+        self.epochs = FLAGS.epochs
+        # Load data from json archives
+        self.train_data = simmc_utils.get_data("train")
+        self.validation_data = simmc_utils.get_data("val")
+        self.test_data = simmc_utils.get_data("test")
+        # BERT tokenizer
+        self.tokenizer = BertTokenizer.from_pretained(FLAGS.pretrained_set, do_lower_case=True)
+        # Compute max length
+        max_len_training = self.compute_max_len(self.train_data)
+        max_len_validation = self.compute_max_len(self.validation_data)
+        max_len_test = self.compute_max_len(self.test_data)
+        self.max_len = max(max_len_training, max_len_validation, max_len_test)
+        # Encoding labels
+        self.encoded_labels = md_utils.label_encoding(self.train_data, self.validation_data, self.test_data)
+        encoded_data = self.df_encoding(self.train_data)
+        self.trainDataLoader=loaders.get_dataloader(
+            input_ids=encoded_data.input_ids,
+            attention_mask=encoded_data.attention_mask,
+            labels_actions=self.encoded_labels.tr_act,
+            labels_attributes=self.encoded_labels.tr_att,
+            dialog_ids=self.train_data.dialog_ids.values,
+            turn_idx=self.train_data.turn_idx.values,
+            batch_size=self.batch,
+            type='random'
+        )
+        encoded_data = self.df_encoding(self.validation_data)
+        self.validationDataLoader=loaders.get_dataloader(
+            input_ids=encoded_data.input_ids,
+            attention_mask=encoded_data.attention_mask,
+            labels_actions=self.encoded_labels.vd_act,
+            labels_attributes=self.encoded_labels.vd_att,
+            dialog_ids=self.validation_data.dialog_ids.values,
+            turn_idx=self.validation_data.turn_idx.values,
+            batch_size=self.batch
+        )
+        encoded_data = self.df_encoding(self.test_data)
+        self.testDataLoader=loaders.get_dataloader(
+            input_ids=encoded_data.input_ids,
+            attention_mask=encoded_data.attention_mask,
+            labels_actions=self.encoded_labels.tst_act,
+            labels_attributes=self.encoded_labels.tst_att,
+            dialog_ids=self.test_data.dialog_ids.values,
+            turn_idx=self.test_data.turn_idx.values,
+            batch_size=self.batch
+        )
         self.model_actions = {}
-        self.optimizer = None
-        self.scheduler = None
+        if model==None:
+            self.model=md.CustomBERTModel()
+            self.optimizer=AdamW(self.model.parameters(),
+                                 lr=FLAGS.learning_rate,
+                                 eps=FLAGS.tolerance)
+            self.scheduler=get_linear_schedule_with_warmup(self.optimizer,
+                                                           num_warmup_steps=0,
+                                                           num_training_steps=len(self.trainDataLoader) * self.epochs)
+        else:
+            self.model=model
+            self.optimizer=optimizer
+            self.scheduler=scheduler
+
+    def compute_max_len(self, df):
+        """Compute tokenized transcripts max length
+
+        :param df: pandas dataframe with the transcript to be tokenized
+        :return: max length found in the dataset
+        """
+
+        input_ids = [
+            self.tokenizer.encode(f"{df.previous_transcript[i]} {df.previous_system_transcript[i]}", df.transcript[i],
+                             add_special_tokens=True)
+            if df.previous_transcript != "" and FLAGS.use_next
+            else self.tokenizer.encode(df.transcript[i], add_special_tokens=True)
+            for i in range(len(df))]
+
+        return max(input_ids)
+
+    def df_encoding(self, df):
+        """Tokenization of the dataframe sentences
+
+        :param df: pandas dataframe to be encoded
+        :param max_len: max length for sentences padding
+        :return: a dictionary with two list, input_ids and attention_mask
+        """
+        # For every sentence `encode_plus` will:
+        #   (1) Tokenize the sentence.
+        #   (2) Prepend the `[CLS]` token to the start.
+        #   (3) Append the `[SEP]` token to the end.
+        #   (4) Map tokens to their IDs.
+        #   (5) Pad or truncate the sentence to `max_length`
+        #   (6) Create attention masks for [PAD] tokens.
+
+        encoded_dict = [self.tokenizer.encode_plus(f"{df.previous_transcript[i]} {df.previous_system_transcript[i]}",
+                                              # sentence to encode
+                                              df.transcript[i],  # next sentence to encode
+                                              add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
+                                              truncation=True,
+                                              max_length=self.max_len,  # Pad & truncate all sentences.
+                                              pad_to_max_length=True,
+                                              return_attention_mask=True,  # Build attention masks.
+                                              return_tensors='pt'  # return pytorch tensors.
+                                              )
+                        if df.previous_transcript[i] != "" and FLAGS.use_next
+                        else self.tokenizer.encode_plus(df.transcript[i],  # next sentence to encode
+                                                   add_special_tokens=True,  # Add '[CLS]' and '[SEP]'
+                                                   truncation=True,
+                                                   max_length=self.max_len,  # Pad & truncate all sentences.
+                                                   pad_to_max_length=True,
+                                                   return_attention_mask=True,  # Build attention masks.
+                                                   return_tensors='pt'  # return pytorch tensors.
+                                                   )
+                        for i in range(len(df))]
+
+        return {'input_ids': torch.cat(encoded_dict['input_ids'], dim=0),
+                'attention_mask': torch.cat(encoded_dict['attention_mask'], dim=0)}
 
     def train_and_eval(self):
         """Training and evaluation steps
@@ -88,7 +201,7 @@ class Runner():
                 # Progress update every 40 batches.
                 if step % 400 == 0 and not step == 0:
                     # Calculate elapsed time in minutes.
-                    elapsed = model_utils.format_time(time.time() - t0)
+                    elapsed = md_utils.format_time(time.time() - t0)
 
                     # Report progress.
                     print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(train_dataloader), elapsed))
@@ -126,7 +239,7 @@ class Runner():
                 result = self.model(b_input_ids,
                                     mask=b_input_mask)
 
-                loss = model_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
+                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
 
                 # Accumulate the training loss over all of the batches so that we can
                 # calculate the average loss at the end. `loss` is a Tensor containing a
@@ -155,7 +268,7 @@ class Runner():
             avg_train_loss = total_train_loss / len(train_dataloader)
 
             # Measure how long this epoch took.
-            training_time = model_utils.format_time(time.time() - t0)
+            training_time = md_utils.format_time(time.time() - t0)
 
             print("")
             print("  Average training loss: {0:.2f}".format(avg_train_loss))
@@ -223,7 +336,7 @@ class Runner():
                 # Get the loss and "logits" output by the model. The "logits" are the
                 # output values prior to applying an activation function like the
                 # softmax.
-                loss = model_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
+                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
 
                 # Accumulate the validation loss.
                 total_eval_loss += loss.item()
@@ -249,7 +362,7 @@ class Runner():
                 total_eval_accuracy_multilabel['matched'] += accuracy_multilabel['matched']
                 total_eval_accuracy_multilabel['counts'] += accuracy_multilabel['counts']
                 # Salvo dati elaborazione batch per debug/analisi
-                test_batch.append({
+                self.test_batch.append({
                     'epoch': epoch_i + 1,
                     'batchnum': batch_number,
                     'actions_logits': actions_logits_foracc,
@@ -313,7 +426,7 @@ class Runner():
             avg_val_loss = total_eval_loss / len(validation_dataloader)
 
             # Measure how long the validation run took.
-            validation_time = format_time(time.time() - t0)
+            validation_time = md_utils.format_time(time.time() - t0)
 
             print("  Validation Loss: {0:.4f}".format(avg_val_loss))
             print("  Validation took: {:}".format(validation_time))
@@ -335,7 +448,7 @@ class Runner():
         print("")
         print("Training complete!")
 
-        print("Total training took {:} (h:mm:ss)".format(model_utils.format_time(time.time() - total_t0)))
+        print("Total training took {:} (h:mm:ss)".format(md_utils.format_time(time.time() - total_t0)))
 
         def validate(self, act_classes, attr_classes):
             """
@@ -367,12 +480,12 @@ class Runner():
                 #   [0]: input ids
                 #   [1]: attention masks
                 #   [2]: labels
-                b_input_ids = batch[0].to(device)
-                b_input_mask = batch[1].to(device)
-                b_labels_actions = batch[2].to(device)
-                b_labels_attributes = batch[3].to(device)
-                b_dialog_ids = batch[4].to(device).detach().cpu().numpy()
-                b_turn_idxs = batch[5].to(device).detach().cpu().numpy()
+                b_input_ids = batch[0].to(self.device)
+                b_input_mask = batch[1].to(self.device)
+                b_labels_actions = batch[2].to(self.device)
+                b_labels_attributes = batch[3].to(self.device)
+                b_dialog_ids = batch[4].to(self.device).detach().cpu().numpy()
+                b_turn_idxs = batch[5].to(self.device).detach().cpu().numpy()
 
                 # Tell pytorch not to bother with constructing the compute graph during
                 # the forward pass, since this is only needed for backprop (training).

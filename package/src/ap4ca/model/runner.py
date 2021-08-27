@@ -1,6 +1,6 @@
-from transformers import BertModel, BertTokenizer, AdamW, get_linear_schedule_with_warmup
+from transformers import BertTokenizer, AdamW, get_linear_schedule_with_warmup
+from sklearn.preprocessing import MultiLabelBinarizer, LabelEncoder
 import torch
-from torch import nn
 import numpy as np
 from absl import flags
 import random
@@ -26,6 +26,8 @@ class Runner():
         :param model: The custom BERT model to be run
         :param device: The device (GPU or TPU) for tensors manipulation
         """
+        # Set random value for deterministic behaviour
+        torch.manual_seed(FLAGS.seed)
         # Computing device (GPU or TPU)
         self.device = md_utils.get_device()
         # We'll store a number of quantities such as training and validation loss,
@@ -36,19 +38,22 @@ class Runner():
         self.batch = FLAGS.batch_size
         self.epochs = FLAGS.epochs
         # Load data from json archives
-        self.train_data = simmc_utils.get_data("train")
-        self.validation_data = simmc_utils.get_data("val")
-        self.test_data = simmc_utils.get_data("test")
+        self.train_data = simmc_utils.get_data("train", format="df")
+        self.validation_data = simmc_utils.get_data("val", format="df")
+        self.test_data = simmc_utils.get_data("test", format="df")
         # BERT tokenizer
         self.tokenizer = BertTokenizer.from_pretained(FLAGS.pretrained_set, do_lower_case=True)
+        # Labels encoders
+        self.le = LabelEncoder()
+        self.mlb = MultiLabelBinarizer()
         # Compute max length
         max_len_training = self.compute_max_len(self.train_data)
         max_len_validation = self.compute_max_len(self.validation_data)
         max_len_test = self.compute_max_len(self.test_data)
         self.max_len = max(max_len_training, max_len_validation, max_len_test)
         # Encoding labels
-        self.encoded_labels = md_utils.label_encoding(self.train_data, self.validation_data, self.test_data)
-        encoded_data = self.df_encoding(self.train_data)
+        self.encoded_labels = self.label_encoding()
+        encoded_data = self.transcript_encoding(self.train_data)
         self.trainDataLoader=loaders.get_dataloader(
             input_ids=encoded_data.input_ids,
             attention_mask=encoded_data.attention_mask,
@@ -59,7 +64,7 @@ class Runner():
             batch_size=self.batch,
             type='random'
         )
-        encoded_data = self.df_encoding(self.validation_data)
+        encoded_data = self.transcript_encoding(self.validation_data)
         self.validationDataLoader=loaders.get_dataloader(
             input_ids=encoded_data.input_ids,
             attention_mask=encoded_data.attention_mask,
@@ -67,9 +72,10 @@ class Runner():
             labels_attributes=self.encoded_labels.vd_att,
             dialog_ids=self.validation_data.dialog_ids.values,
             turn_idx=self.validation_data.turn_idx.values,
-            batch_size=self.batch
+            batch_size=self.batch,
+            type='sequential'
         )
-        encoded_data = self.df_encoding(self.test_data)
+        encoded_data = self.transcript_encoding(self.test_data)
         self.testDataLoader=loaders.get_dataloader(
             input_ids=encoded_data.input_ids,
             attention_mask=encoded_data.attention_mask,
@@ -77,9 +83,13 @@ class Runner():
             labels_attributes=self.encoded_labels.tst_att,
             dialog_ids=self.test_data.dialog_ids.values,
             turn_idx=self.test_data.turn_idx.values,
-            batch_size=self.batch
+            batch_size=self.batch,
+            type = 'sequential'
         )
         self.model_actions = {}
+
+        self.total_step = len(self.trainDataLoader) + self.epochs
+
         if model==None:
             self.model=md.CustomBERTModel()
             self.optimizer=AdamW(self.model.parameters(),
@@ -92,6 +102,9 @@ class Runner():
             self.model=model
             self.optimizer=optimizer
             self.scheduler=scheduler
+
+        if FLAGS.device == "GPU":
+            self.model.cuda(self.device)
 
     def compute_max_len(self, df):
         """Compute tokenized transcripts max length
@@ -109,7 +122,7 @@ class Runner():
 
         return max(input_ids)
 
-    def df_encoding(self, df):
+    def transcript_encoding(self, df):
         """Tokenization of the dataframe sentences
 
         :param df: pandas dataframe to be encoded
@@ -148,31 +161,50 @@ class Runner():
         return {'input_ids': torch.cat(encoded_dict['input_ids'], dim=0),
                 'attention_mask': torch.cat(encoded_dict['attention_mask'], dim=0)}
 
+    def label_encoding(self):
+        """Encoding actions and attributes labels
+
+        :return: a dictionary with the encoded actions and attributes lists
+        """
+
+        attributes_labels = np.concatenate((self.train_data.attributes.values,
+                                            self.validation_data.attributes.values,
+                                            self.test_data.attributes.values),
+                                           axis=None)
+        attributes_yt = self.mlb.fit_transform(attributes_labels)
+        return {
+            'tr_act': torch.tensor(self.le.fit_transform(self.train_data.action.values), device=self.device),
+            'tr_att': torch.tensor(attributes_yt[0:len(self.train_data.attributes.values)], device=self.device),
+            'vd_act': torch.tensor(self.le.fit_transform(self.validation_data.action.values), device=self.device),
+            'vd_att': torch.tensor(attributes_yt[len(self.train_data.attributes.values), len(self.train_data.attributes.values) + len(
+                self.validation_data.attributes.values)], device=self.device),
+            'tst_act': torch.tensor(self.le.fit_transform(self.test_data.action.values), device=self.device),
+            'tst_att': torch.tensor(attributes_yt[len(self.train_data.attributes.values) + len(self.validation_data.attributes.values):],
+                                    device=self.device)
+        }
+
     def train_and_eval(self):
         """Training and evaluation steps
 
         :return:
         """
-        dev_dials = simmc_utils.get_data("train")
-
-        train_dataloader = loaders.get_dataloader()
+        dev_dials = simmc_utils.get_data("val", format="json")
 
         # Set the seed value all over the place to make this reproducible.
         random.seed(FLAGS.seed)
         np.random.seed(FLAGS.seed)
         # torch.manual_seed(FLAGS.seed)  must be done before RandomSampler instantiation
-        torch.cuda.manual_seed_all(FLAGS.seed)
-
-        epochs = FLAGS.epochs
+        if FLAGS.device == "GPU":
+            torch.cuda.manual_seed_all(FLAGS.seed)
 
         # This training code is based on the `run_glue.py` script here:
-        # https://github.com/huggingface/transformers/blob/5bfcd0485ece086ebcbed2d008813037968a9e58/examples/run_glue.py#L128
+        # https://github.com/huggingface/transformer    # Delete argv or it is used??s/blob/5bfcd0485ece086ebcbed2d008813037968a9e58/examples/run_glue.py#L128
 
         # Measure the total training time for the whole run.
         total_t0 = time.time()
 
         # For each epoch...
-        for epoch_i in range(0, epochs):
+        for epoch_i in range(0, self.epochs):
             # ========================================
             #               Training
             # ========================================
@@ -180,7 +212,7 @@ class Runner():
             # Perform one full pass over the training set.
 
             print("")
-            print('======== Epoch {:} / {:} ========'.format(epoch_i + 1, epochs))
+            print('======== Epoch {:} / {:} ========'.format(epoch_i + 1, self.epochs))
             print('Training...')
 
             # Measure how long the training epoch takes.
@@ -196,7 +228,7 @@ class Runner():
             self.model.train()
 
             # For each batch of training data...
-            for step, batch in enumerate(train_dataloader):
+            for step, batch in enumerate(self.trainDataLoader):
 
                 # Progress update every 40 batches.
                 if step % 400 == 0 and not step == 0:
@@ -204,7 +236,7 @@ class Runner():
                     elapsed = md_utils.format_time(time.time() - t0)
 
                     # Report progress.
-                    print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(train_dataloader), elapsed))
+                    print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(self.trainDataLoader), elapsed))
 
                 # Unpack this training batch from our dataloader.
                 #
@@ -265,7 +297,7 @@ class Runner():
             print(f"End of epoch {epoch_i}")
 
             # Calculate the average loss over all of the batches.
-            avg_train_loss = total_train_loss / len(train_dataloader)
+            avg_train_loss = total_train_loss / len(self.trainDataLoader)
 
             # Measure how long this epoch took.
             training_time = md_utils.format_time(time.time() - t0)
@@ -279,6 +311,7 @@ class Runner():
             # ========================================
             # After the completion of each training epoch, measure our performance on
             # our validation set.
+            # TODO join validation and test
 
             print("")
             print("Running Validation...")
@@ -287,7 +320,6 @@ class Runner():
 
             # Put the model in evaluation mode--the dropout layers behave differently
             # during evaluation.mlb.inverse_transform(attr_yt[3].reshape(1, -1))
-            # FIXME reset model to train again
             self.model.eval()
 
             # Tracking variables
@@ -299,11 +331,10 @@ class Runner():
             batch_number = 0
 
             # Dictionary for action_evaluation
-            model_actions = {}
+            self.model_actions = {}
 
-            validation_dataloader = loaders.get_dataloader()
             # Evaluate data for one epoch
-            for batch in validation_dataloader:
+            for batch in self.validationDataLoader:
 
                 batch_number += 1
 
@@ -378,37 +409,33 @@ class Runner():
                     dialog_id = b_dialog_ids[el_i]
                     action_log_prob = {}
                     for act_i in range(len(actions_logits_foracc[el_i])):
-                        # todo: controllare che la probabilità predetta sia in scala logaritmica (?? potrebbe essere fonte di errori)
-                        action_log_prob[le.classes_[act_i]] = np.log(actions_logits_foracc[el_i][act_i])
+                        action_log_prob[self.le.classes_[act_i]] = np.log(actions_logits_foracc[el_i][act_i])
                     # attributes = {}
                     attributes = []
                     # attributes_list = np.rint(attributes_logits_foracc[el_i])
                     attributes_list = np.array(attributes_logits_foracc[el_i])
                     for attr in range(len(attributes_list)):
-                        attribute = mlb.classes_[attr]
+                        attribute = self.mlb.classes_[attr]
                         # attributes[mlb.classes_[attr]] = attributes_list[attr]
                         if attributes_list[attr] >= 0.5:
                             attributes.append(attribute)
                     prediction = {
-                        'action': le.classes_[np.argmax(actions_logits_foracc[el_i])],
+                        'action': self.le.classes_[np.argmax(actions_logits_foracc[el_i])],
                         'action_log_prob': action_log_prob,
                         'attributes': {'attributes': attributes},
                         'turn_id': b_turn_idxs[el_i]
                     }
-                    if dialog_id in model_actions:
-                        model_actions[dialog_id]['predictions'].append(prediction)
+                    if dialog_id in self.model_actions:
+                        self.model_actions[dialog_id]['predictions'].append(prediction)
                     else:
                         predictions = list()
                         predictions.append(prediction)
-                        model_actions[dialog_id] = {
+                        self.model_actions[dialog_id] = {
                             'dialog_id': dialog_id,
                             'predictions': predictions
                         }
 
             # Report the final accuracy for this validation
-
-            # avg_val_accuracy_classification = total_eval_accuracy_classification / len(validation_dataloader)
-            # avg_val_accuracy_multilabel = total_eval_accuracy_multilabel / len(validation_dataloader)
             avg_val_accuracy_classification = total_eval_accuracy_classification['matched'] / \
                                               total_eval_accuracy_classification['counts']
             avg_val_accuracy_multilabel = total_eval_accuracy_multilabel['matched'] / total_eval_accuracy_multilabel['counts']
@@ -416,14 +443,14 @@ class Runner():
             print("  Accuracy for multilabel-classification (attributes): {0:.4f}".format(avg_val_accuracy_multilabel))
 
             # Reference implementation: evaluation of action prediction along with attributes
-            metrics = evaluation.evaluate_action_prediction(dev_dials, model_actions.values())
+            metrics = evaluation.evaluate_action_prediction(dev_dials, self.model_actions.values())
             # print("model_actions passed to the evaluator:")
             print("***************************************")
             print("Reference evaluation metrics:")
             print(metrics)
 
             # Calculate the average loss over all of the batches.
-            avg_val_loss = total_eval_loss / len(validation_dataloader)
+            avg_val_loss = total_eval_loss / len(self.validationDataLoader)
 
             # Measure how long the validation run took.
             validation_time = md_utils.format_time(time.time() - t0)
@@ -450,124 +477,125 @@ class Runner():
 
         print("Total training took {:} (h:mm:ss)".format(md_utils.format_time(time.time() - total_t0)))
 
-        def validate(self, act_classes, attr_classes):
-            """
-            TODO Check input file
-            :param self:
-            :return:
-            """
-            # with open('./extr_output/fashion_devtest_dials_api_calls.json') as f:
-            #    devtest_dials = json.load(f)
-            devtest_dials = simmc_utils.get_data("eval")
+    def validate(self, act_classes, attr_classes):
+        """
+        TODO Check input file
+        :param self:
+        :return:
+        """
+        # with open('./extr_output/fashion_devtest_dials_api_calls.json') as f:
+        #    devtest_dials = json.load(f)
+        devtest_dials = simmc_utils.get_data("test", format="json")
 
-            evaluation_dataloader = loaders.get_dataloader()
+        # Tracking variables
+        total_eval_accuracy_classification = {'matched': 0, 'counts': 0}
+        total_eval_accuracy_multilabel = {'matched': 0, 'counts': 0}
 
-            # Tracking variables
-            total_eval_accuracy_classification = {'matched': 0, 'counts': 0}
-            total_eval_accuracy_multilabel = {'matched': 0, 'counts': 0}
+        # Put model in evaluation mode
+        self.model.eval()
 
-            # Put model in evaluation mode
-            self.model.eval()
+        for batch in self.testDataLoader:
 
-            for batch in evaluation_dataloader:
+            # Unpack this training batch from our dataloader.
+            #
+            # As we unpack the batch, we'll also copy each tensor to the GPU using
+            # the `to` method.
+            #
+            # `batch` contains three pytorch tensors:
+            #   [0]: input ids
+            #   [1]: attention masks
+            #   [2]: labels
+            b_input_ids = batch[0].to(self.device)
+            b_input_mask = batch[1].to(self.device)
+            b_labels_actions = batch[2].to(self.device)
+            b_labels_attributes = batch[3].to(self.device)
+            b_dialog_ids = batch[4].to(self.device).detach().cpu().numpy()
+            b_turn_idxs = batch[5].to(self.device).detach().cpu().numpy()
 
-                # Unpack this training batch from our dataloader.
-                #
-                # As we unpack the batch, we'll also copy each tensor to the GPU using
-                # the `to` method.
-                #
-                # `batch` contains three pytorch tensors:
-                #   [0]: input ids
-                #   [1]: attention masks
-                #   [2]: labels
-                b_input_ids = batch[0].to(self.device)
-                b_input_mask = batch[1].to(self.device)
-                b_labels_actions = batch[2].to(self.device)
-                b_labels_attributes = batch[3].to(self.device)
-                b_dialog_ids = batch[4].to(self.device).detach().cpu().numpy()
-                b_turn_idxs = batch[5].to(self.device).detach().cpu().numpy()
+            # Tell pytorch not to bother with constructing the compute graph during
+            # the forward pass, since this is only needed for backprop (training).
+            with torch.no_grad():
+                # Forward pass, calculate logit predictions.
+                # token_type_ids is the same as the "segment ids", which
+                # differentiates sentence 1 and 2 in 2-sentence tasks.
+                result = self.model(b_input_ids, mask=b_input_mask)
 
-                # Tell pytorch not to bother with constructing the compute graph during
-                # the forward pass, since this is only needed for backprop (training).
-                with torch.no_grad():
-                    # Forward pass, calculate logit predictions.
-                    # token_type_ids is the same as the "segment ids", which
-                    # differentiates sentence 1 and 2 in 2-sentence tasks.
-                    result = self.model(b_input_ids, mask=b_input_mask)
+            actions_logits_foracc = result['actions'].detach().cpu().numpy()
+            attributes_logits_foracc = result['attributes'].detach().cpu().numpy()
+            actions_labels_foracc = b_labels_actions.to('cpu').numpy()
+            attributes_labels_foracc = b_labels_attributes.to('cpu').numpy()
 
-                actions_logits_foracc = result['actions'].detach().cpu().numpy()
-                attributes_logits_foracc = result['attributes'].detach().cpu().numpy()
-                actions_labels_foracc = b_labels_actions.to('cpu').numpy()
-                attributes_labels_foracc = b_labels_attributes.to('cpu').numpy()
+            # Calculate the accuracy for this batch of test sentences, and
+            # accumulate it over all batches.
+            accuracy_classification = simmc_utils.flat_accuracy_actions(actions_logits_foracc,
+                                                                        actions_labels_foracc)
+            accuracy_multilabel = simmc_utils.flat_accuracy_attributes(attributes_logits_foracc,
+                                                                       attributes_labels_foracc)
 
-                # Calculate the accuracy for this batch of test sentences, and
-                # accumulate it over all batches.
-                accuracy_classification = simmc_utils.flat_accuracy_actions(actions_logits_foracc,
-                                                                            actions_labels_foracc)
-                accuracy_multilabel = simmc_utils.flat_accuracy_attributes(attributes_logits_foracc,
-                                                                           attributes_labels_foracc)
+            total_eval_accuracy_classification['matched'] += accuracy_classification['matched']
+            total_eval_accuracy_classification['counts'] += accuracy_classification['counts']
+            total_eval_accuracy_multilabel['matched'] += accuracy_multilabel['matched']
+            total_eval_accuracy_multilabel['counts'] += accuracy_multilabel['counts']
 
-                total_eval_accuracy_classification['matched'] += accuracy_classification['matched']
-                total_eval_accuracy_classification['counts'] += accuracy_classification['counts']
-                total_eval_accuracy_multilabel['matched'] += accuracy_multilabel['matched']
-                total_eval_accuracy_multilabel['counts'] += accuracy_multilabel['counts']
-
-                # Fill dictionary for action_evaluation
-                for el_i in range(len(actions_logits_foracc)):
-                    dialog_id = b_dialog_ids[el_i]
-                    action_log_prob = {}
-                    for act_i in range(len(actions_logits_foracc[el_i])):
-                        # todo: controllare che la probabilità predetta sia in scala logaritmica (?? potrebbe essere fonte di errori)
-                        action_log_prob[le.classes_[act_i]] = np.log(actions_logits_foracc[el_i][act_i])
-                    # attributes = {}
-                    attributes = []
-                    # attributes_list = np.rint(attributes_logits_foracc[el_i])
-                    attributes_list = np.array(attributes_logits_foracc[el_i])
-                    for attr in range(len(attributes_list)):
-                        attribute = attr_classes[attr]
-                        # attributes[mlb.classes_[attr]] = attributes_list[attr]
-                        if attributes_list[attr] >= 0.5:
-                            attributes.append(attribute)
-                    prediction = {
-                        'action': act_classes[np.argmax(actions_logits_foracc[el_i])],
-                        'action_log_prob': action_log_prob,
-                        'attributes': {'attributes': attributes},
-                        'turn_id': b_turn_idxs[el_i]
+            # Fill dictionary for action_evaluation
+            for el_i in range(len(actions_logits_foracc)):
+                dialog_id = b_dialog_ids[el_i]
+                action_log_prob = {}
+                for act_i in range(len(actions_logits_foracc[el_i])):
+                    # todo: controllare che la probabilità predetta sia in scala logaritmica (?? potrebbe essere fonte di errori)
+                    action_log_prob[self.le.classes_[act_i]] = np.log(actions_logits_foracc[el_i][act_i])
+                # attributes = {}
+                attributes = []
+                # attributes_list = np.rint(attributes_logits_foracc[el_i])
+                attributes_list = np.array(attributes_logits_foracc[el_i])
+                for attr in range(len(attributes_list)):
+                    attribute = attr_classes[attr]
+                    # attributes[mlb.classes_[attr]] = attributes_list[attr]
+                    if attributes_list[attr] >= 0.5:
+                        attributes.append(attribute)
+                prediction = {
+                    'action': act_classes[np.argmax(actions_logits_foracc[el_i])],
+                    'action_log_prob': action_log_prob,
+                    'attributes': {'attributes': attributes},
+                    'turn_id': b_turn_idxs[el_i]
+                }
+                if dialog_id in self.model_actions:
+                    self.model_actions[dialog_id]['predictions'].append(prediction)
+                else:
+                    predictions = list()
+                    predictions.append(prediction)
+                    self.model_actions[dialog_id] = {
+                        'dialog_id': dialog_id,
+                        'predictions': predictions
                     }
-                    if dialog_id in self.model_actions:
-                        self.model_actions[dialog_id]['predictions'].append(prediction)
-                    else:
-                        predictions = list()
-                        predictions.append(prediction)
-                        self.model_actions[dialog_id] = {
-                            'dialog_id': dialog_id,
-                            'predictions': predictions
-                        }
 
-            # Report the final accuracy for this validation
+        # Report the final accuracy for this validation
+        avg_val_accuracy_classification = total_eval_accuracy_classification['matched'] / \
+                                          total_eval_accuracy_classification['counts']
+        avg_val_accuracy_multilabel = total_eval_accuracy_multilabel['matched'] / total_eval_accuracy_multilabel[
+            'counts']
+        print("  Accuracy for classification (actions): {0:.4f}".format(avg_val_accuracy_classification))
+        print("  Accuracy for multilabel-classification (attributes): {0:.4f}".format(avg_val_accuracy_multilabel))
 
-            # avg_val_accuracy_classification = total_eval_accuracy_classification / len(validation_dataloader)
-            # avg_val_accuracy_multilabel = total_eval_accuracy_multilabel / len(validation_dataloader)
-            avg_val_accuracy_classification = total_eval_accuracy_classification['matched'] / \
-                                              total_eval_accuracy_classification['counts']
-            avg_val_accuracy_multilabel = total_eval_accuracy_multilabel['matched'] / total_eval_accuracy_multilabel[
-                'counts']
-            print("  Accuracy for classification (actions): {0:.4f}".format(avg_val_accuracy_classification))
-            print("  Accuracy for multilabel-classification (attributes): {0:.4f}".format(avg_val_accuracy_multilabel))
+        # Reference implementation: evaluation of action prediction along with attributes
+        metrics = evaluation.evaluate_action_prediction(devtest_dials, self.model_actions.values())
+        # print("model_actions passed to the evaluator:")
+        # for v in model_actions.values():
+        #   print(v)
+        print("***************************************")
+        print("Reference evaluation metrics:")
+        print(metrics)
 
-            # Reference implementation: evaluation of action prediction along with attributes
-            metrics = evaluation.evaluate_action_prediction(devtest_dials, model_actions.values())
-            # print("model_actions passed to the evaluator:")
-            # for v in model_actions.values():
-            #   print(v)
-            print("***************************************")
-            print("Reference evaluation metrics:")
-            print(metrics)
+    def store_results(self):
+        pd.set_option('precision', 2)
 
-        def store_results(self):
-            pass
+        pass
 
+    def plot_result(self):
+        pass
 
+    def print_model_structure(self):
+        pass
 
 
 

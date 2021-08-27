@@ -24,5 +24,7 @@ def get_dataloader(input_ids,
 
     if type=='sequential':
         return DataLoader(dataset, sampler = SequentialSampler(dataset), batch_size = batch_size)
-    else:
+    elif type=='random':
         return DataLoader(dataset, sampler = RandomSampler(dataset), batch_size = batch_size)
+    else:
+        raise ValueError(f"Type dataloader '{type}' invalid, must be 'random' or 'sequential'")

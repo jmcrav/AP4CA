@@ -110,17 +110,30 @@ def flat_accuracy_attributes(preds, labels):
             tot_eq += 1
     return {'matched': tot_eq, 'counts' : tot_preds}
 
-def get_data(type="train"):
+def get_data(type="train", format="df"):
     """Get data from simmc library
 
     :param type: train=training data, eval=evaluation data, val=validation data
+    :param format: df=create dataframe from json, json=only parse json input
     :return: json data parsed
     """
     if type=="train":
-        return createDataframe(FLAGS.training_data)
+        if (format=="df"):
+            return createDataframe(FLAGS.training_data)
+        else:
+            with open(FLAGS.training_data) as f:
+                return json.load(f)
     elif type=="val":
-        return createDataframe(FLAGS.validation_data)
+        if (format=="df"):
+            return createDataframe(FLAGS.validation_data)
+        else:
+            with open(FLAGS.validation_data) as f:
+                return json.load(f)
     elif type=="test":
-        return createDataframe(FLAGS.test_data)
+        if (format=="df"):
+            return createDataframe(FLAGS.test_data)
+        else:
+            with open(FLAGS.test_data) as f:
+                return json.load(f)
     else:
         raise ValueError("Data type must be: 'train' for training, 'val' for validation or 'test' for test data")

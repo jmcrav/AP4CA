@@ -71,11 +71,13 @@ flags.DEFINE_integer(name="num_of_samples",
 
 def main(argv):
 
-    for i in range(1, FLAGS.num_of_samples):
+    print(f"The classifier will be executed {FLAGS.num_of_samples} times")
+
+    for i in range(0, FLAGS.num_of_samples):
 
         print("***************************************")
         print("Running BERT classifier")
-        print(f"\n\tRun number {i}\n\n")
+        print(f"\n\tRun number {i+1}\n\n")
 
         # Build runner
         print("***************************************")

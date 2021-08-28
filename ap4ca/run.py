@@ -75,6 +75,10 @@ def main(argv):
 
     for i in range(0, FLAGS.num_of_samples):
 
+        # if num_of_samples > 1 we need different seed for each run
+        if FLAGS.num_of_samples > 1:
+            FLAGS.seed = randint(100, 1000000)
+
         print("***************************************")
         print("Running BERT classifier")
         print(f"\n\tRun number {i+1}\n\n")

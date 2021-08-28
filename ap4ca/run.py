@@ -50,20 +50,52 @@ flags.DEFINE_string(name="training_data",
 flags.DEFINE_string(name="test_data",
                     default="ap4ca/simmc/data/fashion_devtest_dials_api_calls.json",
                     help="Path to evaluation data")
+flags.DEFINE_float(name="w_SpecifyInfo",
+                   default=1.0,
+                   help="Cross Entropy Loss weight for 'SpecifyInfo' action class")
+flags.DEFINE_float(name="w_None",
+                   default=1.0,
+                   help="Cross Entropy Loss weight for 'None' action class")
+flags.DEFINE_float(name="w_SearchDatabase",
+                   default=1.0,
+                   help="Cross Entropy Loss weight for 'SearchDatabase' action class")
+flags.DEFINE_float(name="w_AddToCart",
+                   default=1.0,
+                   help="Cross Entropy Loss weight for 'AddToCart' action class")
+flags.DEFINE_float(name="w_SearchMemory",
+                   default=1.0,
+                   help="Cross Entropy Loss weight for 'SearchMemory' action class")
+flags.DEFINE_integer(name="num_of_samples",
+                     default=1,
+                     help="Number of samples to be generated")
 
 def main(argv):
 
-    # Build runner
-    runner = r.Runner()
+    for i in range(1, FLAGS.num_of_samples):
 
-    # Train and eval model
-    runner.train_and_eval()
+        print("***************************************")
+        print("Running BERT classifier")
+        print(f"\n\tRun number {i}\n\n")
 
-    # Validate on test set
-    runner.validate()
+        # Build runner
+        print("***************************************")
+        print(f"\tBuild runner object")
+        runner = r.Runner()
 
-    # Store results
-    runner.store_results()
+        # Train and eval model
+        print("***************************************")
+        print("\tCall training step")
+        runner.train_and_eval()
+
+        # Validate on test set
+        print("***************************************")
+        print("\tCall evaluation step")
+        runner.validate()
+
+        # Store results
+        print("***************************************")
+        print("\tStore results")
+        runner.store_results()
 
 if __name__ == '__main__':
     # Mark flag required for command line

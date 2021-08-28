@@ -19,17 +19,20 @@ def get_device():
 
 def loss_fn(logits,
             actions_labels,
-            attributes_labels):
+            attributes_labels,
+            weights):
     """Loss function definition
 
     :param logits:
     :param actions_labels:
     :param attributes_labels:
+    :param weights:
     :return:
     """
     actions_logits = logits['actions']
     attributes_logits = logits['attributes']
-    loss_actions_fn = nn.CrossEntropyLoss()
+
+    loss_actions_fn = nn.CrossEntropyLoss(weight=weights)
     loss_attributes_fn = nn.BCELoss()
     loss_actions = loss_actions_fn(actions_logits, actions_labels)
     loss_attributes = loss_attributes_fn(attributes_logits, attributes_labels.float())

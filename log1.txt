@@ -1653,3 +1653,1439 @@ Running Validation...
 #Instances evaluated API: 3513
 ***************************************
 Reference evaluation metrics:
+{'action_accuracy': 0.8553942499288357, 'action_perplexity': 4.867561453147041, 'attribute_accuracy': 0.788345951930574, 'confusion_matrix': array([[ 469.,   47.,    2.,    0.,    3.],
+       [   8.,  664.,   27.,    5.,   17.],
+       [  11.,  152.,  519.,   35.,   19.],
+       [   0.,    3.,   22.,   31.,   14.],
+       [   4.,   42.,   54.,   43., 1322.]])}
+  Validation Loss: 1.0927
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8599
+  Accuracy for multilabel-classification (attributes): 0.9414
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8599487617421008, 'action_perplexity': 4.549043613480412, 'attribute_accuracy': 0.8006986016080438, 'confusion_matrix': array([[ 466.,   35.,    2.,    0.,    2.],
+       [   9.,  682.,   25.,    8.,   15.],
+       [  12.,  145.,  516.,   32.,   16.],
+       [   0.,    3.,   21.,   30.,   15.],
+       [   5.,   43.,   60.,   44., 1327.]])}
+  Validation Loss: 1.0876
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.06
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8588
+  Accuracy for multilabel-classification (attributes): 0.9428
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8588101337887846, 'action_perplexity': 4.331859352289522, 'attribute_accuracy': 0.7998512306688764, 'confusion_matrix': array([[4.670e+02, 3.500e+01, 1.000e+00, 0.000e+00, 3.000e+00],
+       [9.000e+00, 6.830e+02, 2.300e+01, 6.000e+00, 1.800e+01],
+       [1.200e+01, 1.460e+02, 5.210e+02, 3.800e+01, 2.400e+01],
+       [0.000e+00, 3.000e+00, 2.400e+01, 3.400e+01, 1.800e+01],
+       [4.000e+00, 4.100e+01, 5.500e+01, 3.600e+01, 1.312e+03]])}
+  Validation Loss: 1.0867
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:02 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8553
+  Accuracy for multilabel-classification (attributes): 0.9351
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.855289975912544, 'action_perplexity': 4.366704822115879, 'attribute_accuracy': 0.7958732606221586, 'confusion_matrix': array([[ 744.,   47.,    7.,    3.,   12.],
+       [  25., 1033.,   42.,   10.,   38.],
+       [  14.,  224.,  800.,   66.,   30.],
+       [   0.,    8.,   12.,   60.,   29.],
+       [  10.,   74.,   83.,   47., 1979.]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 10
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 0
+
+  Average training loss: 1.18
+  Training epcoh took: 0:08:25
+
+Running Validation...
+  Accuracy for classification (actions): 0.8454
+  Accuracy for multilabel-classification (attributes): 0.9015
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8454312553373186, 'action_perplexity': 3.6947460577821194, 'attribute_accuracy': 0.7114871526383716, 'confusion_matrix': array([[ 467.,   52.,    7.,    2.,    9.],
+       [  16.,  668.,   42.,    9.,   17.],
+       [   9.,  145.,  501.,   51.,   15.],
+       [   0.,    0.,    0.,    0.,    0.],
+       [   0.,   43.,   74.,   52., 1334.]])}
+  Validation Loss: 1.1197
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:49.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 1
+
+  Average training loss: 1.12
+  Training epcoh took: 0:08:25
+
+Running Validation...
+  Accuracy for classification (actions): 0.8480
+  Accuracy for multilabel-classification (attributes): 0.9166
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8479931682322801, 'action_perplexity': 3.9064761674632145, 'attribute_accuracy': 0.7425741478400866, 'confusion_matrix': array([[4.650e+02, 4.100e+01, 5.000e+00, 0.000e+00, 1.100e+01],
+       [1.700e+01, 6.760e+02, 5.100e+01, 9.000e+00, 2.200e+01],
+       [9.000e+00, 1.360e+02, 4.890e+02, 2.800e+01, 1.200e+01],
+       [0.000e+00, 4.000e+00, 1.900e+01, 3.000e+01, 1.100e+01],
+       [1.000e+00, 5.100e+01, 6.000e+01, 4.700e+01, 1.319e+03]])}
+  Validation Loss: 1.1014
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 2
+
+  Average training loss: 1.10
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8520
+  Accuracy for multilabel-classification (attributes): 0.9277
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.851978366068887, 'action_perplexity': 4.608607953115453, 'attribute_accuracy': 0.7878185294490012, 'confusion_matrix': array([[ 470.,   59.,    5.,    0.,    8.],
+       [   3.,  649.,   29.,    8.,   15.],
+       [   5.,  152.,  518.,   35.,   21.],
+       [   0.,    2.,   13.,   33.,    8.],
+       [  14.,   46.,   59.,   38., 1323.]])}
+  Validation Loss: 1.0959
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 3
+
+  Average training loss: 1.08
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8608
+  Accuracy for multilabel-classification (attributes): 0.9394
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.860802732707088, 'action_perplexity': 4.786666138541688, 'attribute_accuracy': 0.8057345010804471, 'confusion_matrix': array([[4.700e+02, 4.500e+01, 2.000e+00, 0.000e+00, 7.000e+00],
+       [1.300e+01, 6.680e+02, 2.300e+01, 8.000e+00, 1.300e+01],
+       [9.000e+00, 1.480e+02, 5.200e+02, 3.100e+01, 1.700e+01],
+       [0.000e+00, 1.000e+00, 1.400e+01, 3.400e+01, 6.000e+00],
+       [0.000e+00, 4.600e+01, 6.500e+01, 4.100e+01, 1.332e+03]])}
+  Validation Loss: 1.0869
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8568
+  Accuracy for multilabel-classification (attributes): 0.9445
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8568175348704811, 'action_perplexity': 4.420927796057271, 'attribute_accuracy': 0.8085355417283617, 'confusion_matrix': array([[4.580e+02, 3.600e+01, 1.000e+00, 0.000e+00, 4.000e+00],
+       [1.700e+01, 6.750e+02, 3.100e+01, 8.000e+00, 1.400e+01],
+       [1.100e+01, 1.520e+02, 5.180e+02, 3.500e+01, 1.900e+01],
+       [0.000e+00, 1.000e+00, 1.500e+01, 3.200e+01, 1.100e+01],
+       [6.000e+00, 4.400e+01, 5.900e+01, 3.900e+01, 1.327e+03]])}
+  Validation Loss: 1.0898
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8614
+  Accuracy for multilabel-classification (attributes): 0.9482
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8613720466837461, 'action_perplexity': 4.254008315173066, 'attribute_accuracy': 0.8107905579737396, 'confusion_matrix': array([[ 466.,   38.,    2.,    0.,    6.],
+       [  12.,  687.,   32.,    6.,   16.],
+       [   9.,  139.,  522.,   35.,   24.],
+       [   0.,    2.,   16.,   37.,   15.],
+       [   5.,   42.,   52.,   36., 1314.]])}
+  Validation Loss: 1.0811
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:06 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8542
+  Accuracy for multilabel-classification (attributes): 0.9374
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8541782471743561, 'action_perplexity': 4.447966469657096, 'attribute_accuracy': 0.7930487807037381, 'confusion_matrix': array([[ 747.,   48.,   10.,    3.,   17.],
+       [  26., 1044.,   57.,    9.,   35.],
+       [  12.,  209.,  768.,   66.,   21.],
+       [   0.,    7.,   21.,   58.,   22.],
+       [   8.,   78.,   88.,   50., 1993.]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 11
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 0
+
+  Average training loss: 1.18
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8457
+  Accuracy for multilabel-classification (attributes): 0.8989
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8457159123256476, 'action_perplexity': 4.150801047664081, 'attribute_accuracy': 0.7349465336216678, 'confusion_matrix': array([[4.660e+02, 6.800e+01, 6.000e+00, 1.000e+00, 5.000e+00],
+       [6.000e+00, 6.400e+02, 2.100e+01, 3.000e+00, 1.400e+01],
+       [1.200e+01, 1.540e+02, 5.340e+02, 5.700e+01, 2.700e+01],
+       [0.000e+00, 1.000e+00, 3.000e+00, 3.000e+00, 1.000e+00],
+       [8.000e+00, 4.500e+01, 6.000e+01, 5.000e+01, 1.328e+03]])}
+  Validation Loss: 1.1202
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 1
+
+  Average training loss: 1.12
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8426
+  Accuracy for multilabel-classification (attributes): 0.9100
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8425846854540279, 'action_perplexity': 4.866715509709458, 'attribute_accuracy': 0.7561376096044494, 'confusion_matrix': array([[ 462.,   44.,    4.,    0.,    4.],
+       [  12.,  647.,   19.,    4.,   10.],
+       [  10.,  145.,  491.,   34.,   12.],
+       [   0.,    0.,   17.,   22.,   11.],
+       [   8.,   72.,   93.,   54., 1338.]])}
+  Validation Loss: 1.1126
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 2
+
+  Average training loss: 1.10
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8571
+  Accuracy for multilabel-classification (attributes): 0.9231
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8571021918588101, 'action_perplexity': 4.7824944788145, 'attribute_accuracy': 0.7665601810950099, 'confusion_matrix': array([[4.720e+02, 3.600e+01, 3.000e+00, 1.000e+00, 6.000e+00],
+       [1.000e+01, 6.900e+02, 4.200e+01, 1.000e+01, 2.800e+01],
+       [9.000e+00, 1.410e+02, 5.020e+02, 2.600e+01, 1.600e+01],
+       [0.000e+00, 2.000e+00, 2.500e+01, 3.600e+01, 1.400e+01],
+       [1.000e+00, 3.900e+01, 5.200e+01, 4.100e+01, 1.311e+03]])}
+  Validation Loss: 1.0903
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.08
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8619
+  Accuracy for multilabel-classification (attributes): 0.9382
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8619413606604042, 'action_perplexity': 4.249084522233739, 'attribute_accuracy': 0.7935841748556732, 'confusion_matrix': array([[4.710e+02, 3.600e+01, 3.000e+00, 0.000e+00, 5.000e+00],
+       [9.000e+00, 6.870e+02, 3.700e+01, 7.000e+00, 1.500e+01],
+       [9.000e+00, 1.380e+02, 5.070e+02, 3.400e+01, 1.300e+01],
+       [0.000e+00, 1.000e+00, 1.400e+01, 2.900e+01, 8.000e+00],
+       [3.000e+00, 4.600e+01, 6.300e+01, 4.400e+01, 1.334e+03]])}
+  Validation Loss: 1.0868
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.06
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8599
+  Accuracy for multilabel-classification (attributes): 0.9408
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8599487617421008, 'action_perplexity': 4.220346889502594, 'attribute_accuracy': 0.7982264387582398, 'confusion_matrix': array([[ 463.,   31.,    2.,    0.,    6.],
+       [  16.,  695.,   40.,    5.,   22.],
+       [  10.,  142.,  516.,   33.,   24.],
+       [   0.,    2.,   17.,   40.,   16.],
+       [   3.,   38.,   49.,   36., 1307.]])}
+  Validation Loss: 1.0822
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8622
+  Accuracy for multilabel-classification (attributes): 0.9439
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8622260176487333, 'action_perplexity': 4.336948858860157, 'attribute_accuracy': 0.8091584519829284, 'confusion_matrix': array([[ 467.,   35.,    2.,    0.,    5.],
+       [  11.,  678.,   27.,    6.,   18.],
+       [  12.,  150.,  527.,   31.,   22.],
+       [   0.,    3.,   20.,   43.,   16.],
+       [   2.,   42.,   48.,   34., 1314.]])}
+  Validation Loss: 1.0787
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:02 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8571
+  Accuracy for multilabel-classification (attributes): 0.9370
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8571428571428571, 'action_perplexity': 4.635253682322936, 'attribute_accuracy': 0.7970921530028824, 'confusion_matrix': array([[7.480e+02, 4.600e+01, 9.000e+00, 4.000e+00, 1.600e+01],
+       [2.600e+01, 1.038e+03, 3.900e+01, 1.200e+01, 3.800e+01],
+       [1.200e+01, 2.210e+02, 7.880e+02, 6.100e+01, 2.200e+01],
+       [1.000e+00, 6.000e+00, 1.600e+01, 6.200e+01, 2.200e+01],
+       [6.000e+00, 7.500e+01, 9.200e+01, 4.700e+01, 1.990e+03]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 12
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 0
+
+  Average training loss: 1.18
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8426
+  Accuracy for multilabel-classification (attributes): 0.8927
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8425846854540279, 'action_perplexity': 3.9498665110699696, 'attribute_accuracy': 0.7173544640501684, 'confusion_matrix': array([[4.020e+02, 1.300e+01, 1.000e+00, 0.000e+00, 4.000e+00],
+       [7.400e+01, 6.910e+02, 2.600e+01, 6.000e+00, 1.100e+01],
+       [1.200e+01, 1.530e+02, 5.180e+02, 4.600e+01, 1.800e+01],
+       [0.000e+00, 0.000e+00, 1.200e+01, 1.400e+01, 7.000e+00],
+       [4.000e+00, 5.100e+01, 6.700e+01, 4.800e+01, 1.335e+03]])}
+  Validation Loss: 1.1215
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 1
+
+  Average training loss: 1.12
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8517
+  Accuracy for multilabel-classification (attributes): 0.9115
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.851693709080558, 'action_perplexity': 4.477964162838459, 'attribute_accuracy': 0.7637118569397029, 'confusion_matrix': array([[4.460e+02, 3.200e+01, 1.000e+00, 1.000e+00, 5.000e+00],
+       [3.000e+01, 6.630e+02, 2.400e+01, 1.100e+01, 1.800e+01],
+       [1.100e+01, 1.700e+02, 5.380e+02, 4.200e+01, 1.500e+01],
+       [0.000e+00, 0.000e+00, 6.000e+00, 1.700e+01, 9.000e+00],
+       [5.000e+00, 4.300e+01, 5.500e+01, 4.300e+01, 1.328e+03]])}
+  Validation Loss: 1.1061
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 2
+
+  Average training loss: 1.10
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8466
+  Accuracy for multilabel-classification (attributes): 0.9135
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8465698832906348, 'action_perplexity': 4.925629203433565, 'attribute_accuracy': 0.7581791260927626, 'confusion_matrix': array([[4.620e+02, 3.000e+01, 1.000e+00, 0.000e+00, 6.000e+00],
+       [1.400e+01, 6.600e+02, 1.600e+01, 4.000e+00, 1.500e+01],
+       [1.300e+01, 1.660e+02, 5.260e+02, 2.900e+01, 4.400e+01],
+       [0.000e+00, 1.200e+01, 4.900e+01, 5.800e+01, 4.200e+01],
+       [3.000e+00, 4.000e+01, 3.200e+01, 2.300e+01, 1.268e+03]])}
+  Validation Loss: 1.0893
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.08
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8574
+  Accuracy for multilabel-classification (attributes): 0.9414
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8573868488471392, 'action_perplexity': 4.940920175727185, 'attribute_accuracy': 0.7905797159477365, 'confusion_matrix': array([[4.720e+02, 3.400e+01, 4.000e+00, 0.000e+00, 4.000e+00],
+       [1.200e+01, 6.920e+02, 4.300e+01, 7.000e+00, 1.700e+01],
+       [7.000e+00, 1.310e+02, 4.860e+02, 2.800e+01, 9.000e+00],
+       [0.000e+00, 4.000e+00, 2.500e+01, 3.700e+01, 2.000e+01],
+       [1.000e+00, 4.700e+01, 6.600e+01, 4.200e+01, 1.325e+03]])}
+  Validation Loss: 1.0865
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8588
+  Accuracy for multilabel-classification (attributes): 0.9439
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8588101337887846, 'action_perplexity': 4.831651807650958, 'attribute_accuracy': 0.8040257131739458, 'confusion_matrix': array([[4.700e+02, 3.700e+01, 2.000e+00, 0.000e+00, 3.000e+00],
+       [8.000e+00, 6.770e+02, 3.200e+01, 8.000e+00, 1.300e+01],
+       [1.200e+01, 1.500e+02, 5.200e+02, 3.400e+01, 3.400e+01],
+       [0.000e+00, 1.000e+00, 1.700e+01, 3.600e+01, 1.100e+01],
+       [2.000e+00, 4.300e+01, 5.300e+01, 3.600e+01, 1.314e+03]])}
+  Validation Loss: 1.0848
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8619
+  Accuracy for multilabel-classification (attributes): 0.9453
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8619413606604042, 'action_perplexity': 4.206874671172273, 'attribute_accuracy': 0.8102206247439148, 'confusion_matrix': array([[4.690e+02, 3.500e+01, 1.000e+00, 0.000e+00, 3.000e+00],
+       [1.200e+01, 6.880e+02, 3.300e+01, 7.000e+00, 1.400e+01],
+       [9.000e+00, 1.420e+02, 5.180e+02, 3.100e+01, 2.900e+01],
+       [0.000e+00, 4.000e+00, 2.300e+01, 4.400e+01, 2.000e+01],
+       [2.000e+00, 3.900e+01, 4.900e+01, 3.200e+01, 1.309e+03]])}
+  Validation Loss: 1.0784
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:03 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8544
+  Accuracy for multilabel-classification (attributes): 0.9374
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8543635352973874, 'action_perplexity': 4.626761910867222, 'attribute_accuracy': 0.7931387920781664, 'confusion_matrix': array([[7.460e+02, 5.000e+01, 1.100e+01, 3.000e+00, 1.200e+01],
+       [2.800e+01, 1.037e+03, 4.800e+01, 9.000e+00, 3.700e+01],
+       [1.200e+01, 2.210e+02, 7.860e+02, 6.600e+01, 3.100e+01],
+       [1.000e+00, 7.000e+00, 2.000e+01, 5.800e+01, 2.400e+01],
+       [6.000e+00, 7.100e+01, 7.900e+01, 5.000e+01, 1.984e+03]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 13
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 0
+
+  Average training loss: 1.19
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8278
+  Accuracy for multilabel-classification (attributes): 0.9140
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8277825220609166, 'action_perplexity': 3.8868484507924896, 'attribute_accuracy': 0.7087818101496738, 'confusion_matrix': array([[4.260e+02, 3.000e+01, 8.000e+00, 1.000e+00, 5.000e+00],
+       [4.500e+01, 7.020e+02, 9.600e+01, 1.200e+01, 2.100e+01],
+       [8.000e+00, 1.270e+02, 4.430e+02, 4.000e+01, 1.200e+01],
+       [0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00],
+       [1.300e+01, 4.900e+01, 7.700e+01, 6.100e+01, 1.337e+03]])}
+  Validation Loss: 1.1378
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:43.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 1
+
+  Average training loss: 1.13
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8483
+  Accuracy for multilabel-classification (attributes): 0.9192
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8482778252206091, 'action_perplexity': 4.415343905374309, 'attribute_accuracy': 0.7665171512610399, 'confusion_matrix': array([[ 466.,   36.,    0.,    0.,    4.],
+       [  10.,  638.,   15.,    4.,   14.],
+       [  11.,  181.,  533.,   50.,   14.],
+       [   0.,    0.,    0.,    0.,    0.],
+       [   5.,   53.,   76.,   60., 1343.]])}
+  Validation Loss: 1.1175
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 2
+
+  Average training loss: 1.11
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8580
+  Accuracy for multilabel-classification (attributes): 0.9280
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8579561628237973, 'action_perplexity': 4.338446879819365, 'attribute_accuracy': 0.7746859263430858, 'confusion_matrix': array([[4.640e+02, 3.600e+01, 5.000e+00, 1.000e+00, 6.000e+00],
+       [1.700e+01, 6.780e+02, 2.700e+01, 7.000e+00, 2.100e+01],
+       [1.000e+01, 1.540e+02, 5.300e+02, 4.400e+01, 2.000e+01],
+       [0.000e+00, 0.000e+00, 7.000e+00, 1.800e+01, 4.000e+00],
+       [1.000e+00, 4.000e+01, 5.500e+01, 4.400e+01, 1.324e+03]])}
+  Validation Loss: 1.0976
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.09
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8580
+  Accuracy for multilabel-classification (attributes): 0.9342
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8579561628237973, 'action_perplexity': 4.6270360408289894, 'attribute_accuracy': 0.7836046215285266, 'confusion_matrix': array([[4.650e+02, 3.400e+01, 8.000e+00, 0.000e+00, 5.000e+00],
+       [1.300e+01, 6.920e+02, 4.800e+01, 9.000e+00, 1.800e+01],
+       [5.000e+00, 1.320e+02, 5.000e+02, 3.600e+01, 1.100e+01],
+       [0.000e+00, 1.000e+00, 9.000e+00, 2.400e+01, 8.000e+00],
+       [9.000e+00, 4.900e+01, 5.900e+01, 4.500e+01, 1.333e+03]])}
+  Validation Loss: 1.0923
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8602
+  Accuracy for multilabel-classification (attributes): 0.9411
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8602334187304298, 'action_perplexity': 4.029606190000274, 'attribute_accuracy': 0.7986190830179181, 'confusion_matrix': array([[ 466.,   32.,    2.,    0.,    4.],
+       [  13.,  693.,   41.,    8.,   20.],
+       [   9.,  140.,  503.,   31.,   19.],
+       [   0.,    0.,   22.,   46.,   18.],
+       [   4.,   43.,   56.,   29., 1314.]])}
+  Validation Loss: 1.0784
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8634
+  Accuracy for multilabel-classification (attributes): 0.9451
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8633646456020495, 'action_perplexity': 4.134130187844558, 'attribute_accuracy': 0.8104939654851242, 'confusion_matrix': array([[ 467.,   32.,    3.,    0.,    5.],
+       [  12.,  687.,   34.,    5.,   19.],
+       [   9.,  144.,  522.,   34.,   28.],
+       [   0.,    2.,   20.,   52.,   18.],
+       [   4.,   43.,   45.,   23., 1305.]])}
+  Validation Loss: 1.0732
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:03 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8521
+  Accuracy for multilabel-classification (attributes): 0.9348
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8521400778210116, 'action_perplexity': 4.582262335149412, 'attribute_accuracy': 0.7840704309818772, 'confusion_matrix': array([[ 741.,   47.,    8.,    3.,   17.],
+       [  31., 1043.,   45.,   10.,   35.],
+       [  11.,  220.,  785.,   68.,   31.],
+       [   0.,    9.,   24.,   67.,   42.],
+       [  10.,   67.,   82.,   38., 1963.]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 14
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 0
+
+  Average training loss: 1.19
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8446
+  Accuracy for multilabel-classification (attributes): 0.9015
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8445772843723314, 'action_perplexity': 4.633136183344739, 'attribute_accuracy': 0.726377467409369, 'confusion_matrix': array([[4.64e+02, 5.60e+01, 2.00e+00, 0.00e+00, 1.00e+01],
+       [8.00e+00, 6.29e+02, 1.60e+01, 5.00e+00, 9.00e+00],
+       [1.90e+01, 1.70e+02, 5.34e+02, 5.10e+01, 1.60e+01],
+       [0.00e+00, 0.00e+00, 0.00e+00, 0.00e+00, 0.00e+00],
+       [1.00e+00, 5.30e+01, 7.20e+01, 5.80e+01, 1.34e+03]])}
+  Validation Loss: 1.1227
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 1
+
+  Average training loss: 1.13
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8523
+  Accuracy for multilabel-classification (attributes): 0.9160
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.852263023057216, 'action_perplexity': 4.386130649002755, 'attribute_accuracy': 0.7518917942909992, 'confusion_matrix': array([[4.570e+02, 3.600e+01, 2.000e+00, 0.000e+00, 3.000e+00],
+       [1.500e+01, 6.710e+02, 2.000e+01, 6.000e+00, 2.000e+01],
+       [1.500e+01, 1.540e+02, 5.210e+02, 3.700e+01, 1.100e+01],
+       [0.000e+00, 1.000e+00, 5.000e+00, 9.000e+00, 5.000e+00],
+       [5.000e+00, 4.600e+01, 7.600e+01, 6.200e+01, 1.336e+03]])}
+  Validation Loss: 1.1085
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 2
+
+  Average training loss: 1.10
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8557
+  Accuracy for multilabel-classification (attributes): 0.9300
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8556789069171649, 'action_perplexity': 4.0495362421365, 'attribute_accuracy': 0.7817224709064782, 'confusion_matrix': array([[ 467.,   37.,    2.,    0.,    5.],
+       [  10.,  670.,   35.,    4.,   15.],
+       [  13.,  151.,  510.,   32.,   21.],
+       [   0.,    2.,   15.,   33.,    8.],
+       [   2.,   48.,   62.,   45., 1326.]])}
+  Validation Loss: 1.0928
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.09
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8585
+  Accuracy for multilabel-classification (attributes): 0.9391
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8585254768004554, 'action_perplexity': 4.612427238143423, 'attribute_accuracy': 0.7913872881541579, 'confusion_matrix': array([[4.640e+02, 3.100e+01, 2.000e+00, 0.000e+00, 6.000e+00],
+       [1.800e+01, 6.930e+02, 5.300e+01, 6.000e+00, 1.900e+01],
+       [9.000e+00, 1.390e+02, 4.920e+02, 2.700e+01, 1.100e+01],
+       [0.000e+00, 2.000e+00, 1.900e+01, 3.800e+01, 1.000e+01],
+       [1.000e+00, 4.300e+01, 5.800e+01, 4.300e+01, 1.329e+03]])}
+  Validation Loss: 1.0859
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8634
+  Accuracy for multilabel-classification (attributes): 0.9502
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8633646456020495, 'action_perplexity': 4.346459230535891, 'attribute_accuracy': 0.8147923499276386, 'confusion_matrix': array([[ 472.,   34.,    3.,    0.,    3.],
+       [   8.,  676.,   30.,    4.,   14.],
+       [  10.,  155.,  519.,   34.,   13.],
+       [   0.,    5.,   19.,   41.,   20.],
+       [   2.,   38.,   53.,   35., 1325.]])}
+  Validation Loss: 1.0776
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8642
+  Accuracy for multilabel-classification (attributes): 0.9505
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8642186165670367, 'action_perplexity': 4.109295647068088, 'attribute_accuracy': 0.8168073120967432, 'confusion_matrix': array([[ 469.,   30.,    2.,    0.,    4.],
+       [  11.,  686.,   31.,    5.,   19.],
+       [  10.,  149.,  522.,   33.,   21.],
+       [   0.,    3.,   16.,   44.,   16.],
+       [   2.,   40.,   53.,   32., 1315.]])}
+  Validation Loss: 1.0754
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:04 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8571
+  Accuracy for multilabel-classification (attributes): 0.9398
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8571428571428571, 'action_perplexity': 4.464701459248757, 'attribute_accuracy': 0.7998477103900391, 'confusion_matrix': array([[ 746.,   48.,   10.,    3.,   12.],
+       [  28., 1041.,   47.,    8.,   35.],
+       [  12.,  228.,  782.,   67.,   24.],
+       [   0.,    3.,   18.,   64.,   24.],
+       [   7.,   66.,   87.,   44., 1993.]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 15
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 0
+
+  Average training loss: 1.18
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8312
+  Accuracy for multilabel-classification (attributes): 0.8876
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8311984059208654, 'action_perplexity': 4.82637585395794, 'attribute_accuracy': 0.7094933930397604, 'confusion_matrix': array([[4.740e+02, 7.000e+01, 3.000e+00, 1.000e+00, 2.600e+01],
+       [6.000e+00, 6.070e+02, 1.800e+01, 1.100e+01, 1.500e+01],
+       [1.000e+01, 1.980e+02, 5.520e+02, 6.000e+01, 4.700e+01],
+       [0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00],
+       [2.000e+00, 3.300e+01, 5.100e+01, 4.200e+01, 1.287e+03]])}
+  Validation Loss: 1.1380
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 1
+
+  Average training loss: 1.13
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8463
+  Accuracy for multilabel-classification (attributes): 0.9095
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8462852263023057, 'action_perplexity': 3.782568695595499, 'attribute_accuracy': 0.744333206172429, 'confusion_matrix': array([[4.740e+02, 5.900e+01, 6.000e+00, 0.000e+00, 6.000e+00],
+       [1.000e+00, 6.690e+02, 4.800e+01, 6.000e+00, 1.300e+01],
+       [9.000e+00, 1.270e+02, 4.820e+02, 4.700e+01, 1.100e+01],
+       [0.000e+00, 0.000e+00, 1.000e+00, 3.000e+00, 0.000e+00],
+       [8.000e+00, 5.300e+01, 8.700e+01, 5.800e+01, 1.345e+03]])}
+  Validation Loss: 1.1153
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 2
+
+  Average training loss: 1.11
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8508
+  Accuracy for multilabel-classification (attributes): 0.9280
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8508397381155708, 'action_perplexity': 4.469593237651353, 'attribute_accuracy': 0.7781262687040826, 'confusion_matrix': array([[ 464.,   45.,    6.,    0.,   11.],
+       [   9.,  660.,   19.,    4.,   19.],
+       [  11.,  159.,  514.,   28.,   18.],
+       [   0.,    5.,   30.,   51.,   27.],
+       [   8.,   39.,   55.,   31., 1300.]])}
+  Validation Loss: 1.0889
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.09
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8568
+  Accuracy for multilabel-classification (attributes): 0.9362
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8568175348704811, 'action_perplexity': 3.9843869689535847, 'attribute_accuracy': 0.7943226891202876, 'confusion_matrix': array([[4.560e+02, 3.100e+01, 1.000e+00, 0.000e+00, 5.000e+00],
+       [2.000e+01, 6.820e+02, 2.700e+01, 7.000e+00, 2.100e+01],
+       [1.200e+01, 1.580e+02, 5.260e+02, 3.000e+01, 2.100e+01],
+       [0.000e+00, 2.000e+00, 2.200e+01, 4.200e+01, 2.400e+01],
+       [4.000e+00, 3.500e+01, 4.800e+01, 3.500e+01, 1.304e+03]])}
+  Validation Loss: 1.0864
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.06
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8599
+  Accuracy for multilabel-classification (attributes): 0.9436
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8599487617421008, 'action_perplexity': 4.54370737557538, 'attribute_accuracy': 0.8082778916631743, 'confusion_matrix': array([[4.710e+02, 3.800e+01, 2.000e+00, 0.000e+00, 4.000e+00],
+       [1.100e+01, 6.800e+02, 4.000e+01, 5.000e+00, 2.000e+01],
+       [8.000e+00, 1.480e+02, 5.090e+02, 3.300e+01, 1.900e+01],
+       [0.000e+00, 1.000e+00, 2.000e+01, 4.200e+01, 1.300e+01],
+       [2.000e+00, 4.100e+01, 5.300e+01, 3.400e+01, 1.319e+03]])}
+  Validation Loss: 1.0821
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8636
+  Accuracy for multilabel-classification (attributes): 0.9451
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8636493025903786, 'action_perplexity': 4.23096113072495, 'attribute_accuracy': 0.818083421440881, 'confusion_matrix': array([[4.660e+02, 3.000e+01, 1.000e+00, 0.000e+00, 5.000e+00],
+       [1.500e+01, 6.840e+02, 2.800e+01, 2.000e+00, 1.500e+01],
+       [7.000e+00, 1.480e+02, 5.260e+02, 3.500e+01, 2.600e+01],
+       [0.000e+00, 1.000e+00, 2.100e+01, 5.000e+01, 2.100e+01],
+       [4.000e+00, 4.500e+01, 4.800e+01, 2.700e+01, 1.308e+03]])}
+  Validation Loss: 1.0739
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:03 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8542
+  Accuracy for multilabel-classification (attributes): 0.9383
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8541782471743561, 'action_perplexity': 4.7073627106114, 'attribute_accuracy': 0.7944808041139478, 'confusion_matrix': array([[ 745.,   48.,   10.,    2.,   13.],
+       [  27., 1046.,   47.,   11.,   36.],
+       [  12.,  214.,  779.,   64.,   30.],
+       [   0.,    8.,   22.,   71.,   40.],
+       [   9.,   70.,   86.,   38., 1969.]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 16
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader
+		Build train dataloader
+		Build validation dataloader
+		Build test dataloader
+	Build or load BERT model
+Actions classes: 5 - Attributes classes: 33
+***************************************
+	Call training step
+
+======== Epoch 1 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 0
+
+  Average training loss: 1.18
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8409
+  Accuracy for multilabel-classification (attributes): 0.9120
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8408767435240535, 'action_perplexity': 5.048732830464394, 'attribute_accuracy': 0.7279387233449514, 'confusion_matrix': array([[ 445.,   30.,    2.,    0.,    9.],
+       [  15.,  664.,   20.,    5.,   19.],
+       [  32.,  164.,  503.,   44.,    5.],
+       [   0.,    0.,    0.,    0.,    0.],
+       [   0.,   50.,   99.,   65., 1342.]])}
+  Validation Loss: 1.1267
+  Validation took: 0:00:27
+
+======== Epoch 2 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 1
+
+  Average training loss: 1.13
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8329
+  Accuracy for multilabel-classification (attributes): 0.9100
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8329063478508397, 'action_perplexity': 4.173522524634389, 'attribute_accuracy': 0.7036545118495712, 'confusion_matrix': array([[4.530e+02, 3.000e+01, 2.000e+00, 1.000e+00, 1.000e+01],
+       [3.100e+01, 7.230e+02, 1.080e+02, 3.100e+01, 3.800e+01],
+       [8.000e+00, 1.140e+02, 4.410e+02, 4.700e+01, 1.800e+01],
+       [0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00, 0.000e+00],
+       [0.000e+00, 4.100e+01, 7.300e+01, 3.500e+01, 1.309e+03]])}
+  Validation Loss: 1.1259
+  Validation took: 0:00:27
+
+======== Epoch 3 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:37.
+End of epoch 2
+
+  Average training loss: 1.11
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8534
+  Accuracy for multilabel-classification (attributes): 0.9294
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8534016510105323, 'action_perplexity': 4.386856449163191, 'attribute_accuracy': 0.783079394453884, 'confusion_matrix': array([[4.510e+02, 3.100e+01, 1.000e+00, 0.000e+00, 2.000e+00],
+       [1.600e+01, 6.750e+02, 1.700e+01, 9.000e+00, 2.300e+01],
+       [1.600e+01, 1.660e+02, 5.490e+02, 4.600e+01, 3.800e+01],
+       [0.000e+00, 2.000e+00, 1.300e+01, 2.400e+01, 1.300e+01],
+       [9.000e+00, 3.400e+01, 4.400e+01, 3.500e+01, 1.299e+03]])}
+  Validation Loss: 1.0995
+  Validation took: 0:00:27
+
+======== Epoch 4 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 3
+
+  Average training loss: 1.09
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8534
+  Accuracy for multilabel-classification (attributes): 0.9348
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8534016510105323, 'action_perplexity': 4.481853090843206, 'attribute_accuracy': 0.7891918539079016, 'confusion_matrix': array([[ 460.,   39.,   10.,    0.,    2.],
+       [  16.,  677.,   30.,    8.,   18.],
+       [   9.,  147.,  508.,   37.,   17.],
+       [   0.,    0.,   17.,   27.,   12.],
+       [   7.,   45.,   59.,   42., 1326.]])}
+  Validation Loss: 1.0971
+  Validation took: 0:00:27
+
+======== Epoch 5 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 4
+
+  Average training loss: 1.07
+  Training epcoh took: 0:08:24
+
+Running Validation...
+  Accuracy for classification (actions): 0.8580
+  Accuracy for multilabel-classification (attributes): 0.9453
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8579561628237973, 'action_perplexity': 4.487265391936429, 'attribute_accuracy': 0.8074759622082185, 'confusion_matrix': array([[4.670e+02, 3.800e+01, 1.000e+00, 0.000e+00, 7.000e+00],
+       [7.000e+00, 6.770e+02, 2.200e+01, 4.000e+00, 2.100e+01],
+       [1.600e+01, 1.520e+02, 5.280e+02, 3.400e+01, 2.300e+01],
+       [0.000e+00, 3.000e+00, 2.100e+01, 4.700e+01, 2.900e+01],
+       [2.000e+00, 3.800e+01, 5.200e+01, 2.900e+01, 1.295e+03]])}
+  Validation Loss: 1.0804
+  Validation took: 0:00:27
+
+======== Epoch 6 / 6 ========
+Training...
+  Batch   400  of  1,767.    Elapsed: 0:01:54.
+  Batch   800  of  1,767.    Elapsed: 0:03:48.
+  Batch 1,200  of  1,767.    Elapsed: 0:05:42.
+  Batch 1,600  of  1,767.    Elapsed: 0:07:36.
+End of epoch 5
+
+  Average training loss: 1.05
+  Training epcoh took: 0:08:23
+
+Running Validation...
+  Accuracy for classification (actions): 0.8636
+  Accuracy for multilabel-classification (attributes): 0.9456
+#Instances evaluated API: 3513
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8636493025903786, 'action_perplexity': 4.373833344345962, 'attribute_accuracy': 0.8163917331213169, 'confusion_matrix': array([[4.640e+02, 3.100e+01, 1.000e+00, 0.000e+00, 4.000e+00],
+       [1.200e+01, 6.850e+02, 1.900e+01, 4.000e+00, 1.700e+01],
+       [1.300e+01, 1.530e+02, 5.330e+02, 3.500e+01, 2.700e+01],
+       [0.000e+00, 2.000e+00, 1.700e+01, 4.400e+01, 1.900e+01],
+       [3.000e+00, 3.700e+01, 5.400e+01, 3.100e+01, 1.308e+03]])}
+  Validation Loss: 1.0765
+  Validation took: 0:00:27
+
+Training complete!
+Total training took 0:53:04 (h:mm:ss)
+***************************************
+	Call evaluation step
+  Accuracy for classification (actions): 0.8584
+  Accuracy for multilabel-classification (attributes): 0.9398
+#Instances evaluated API: 5397
+***************************************
+Reference evaluation metrics:
+{'action_accuracy': 0.8584398740040763, 'action_perplexity': 4.6238704707957785, 'attribute_accuracy': 0.8042677247016511, 'confusion_matrix': array([[7.390e+02, 4.700e+01, 7.000e+00, 5.000e+00, 1.600e+01],
+       [3.200e+01, 1.044e+03, 3.100e+01, 8.000e+00, 3.700e+01],
+       [1.500e+01, 2.230e+02, 8.090e+02, 6.900e+01, 2.600e+01],
+       [1.000e+00, 1.000e+01, 1.600e+01, 5.600e+01, 2.400e+01],
+       [6.000e+00, 6.200e+01, 8.100e+01, 4.800e+01, 1.985e+03]])}
+***************************************
+	Store results
+***************************************
+Running BERT classifier
+
+	Run number 17
+
+
+***************************************
+	Build runner object
+There are 1 GPU(s) available.
+We will use the GPU: NVIDIA GeForce RTX 2060
+	Load input data
+	Load tokenizer
+	Compute transcripts max length
+	Max length training data transcripts: 177
+	Max length validation data transcripts: 133
+	Max length test data transcripts: 150
+	Max length for padding: 177
+	Encoding data and build dataloader

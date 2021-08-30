@@ -38,25 +38,30 @@ class Runner():
         self.batch = FLAGS.batch_size
         self.epochs = FLAGS.epochs
         # Load data from json archives
+        print("\tLoad input data")
         self.train_data = simmc_utils.get_data("train", format="df")
         self.validation_data = simmc_utils.get_data("val", format="df")
         self.test_data = simmc_utils.get_data("test", format="df")
         # BERT tokenizer
+        print("\tLoad tokenizer")
         self.tokenizer = BertTokenizer.from_pretrained(FLAGS.pretrained_set, do_lower_case=True)
         # Labels encoders
         self.le = LabelEncoder()
         self.mlb = MultiLabelBinarizer()
         # Compute max length
+        print("\tCompute transcripts max length")
         max_len_training = self.compute_max_len(self.train_data)
-        print(f"Max length training data transcripts: {max_len_training}")
+        print(f"\tMax length training data transcripts: {max_len_training}")
         max_len_validation = self.compute_max_len(self.validation_data)
-        print(f"Max length validation data transcripts: {max_len_validation}")
+        print(f"\tMax length validation data transcripts: {max_len_validation}")
         max_len_test = self.compute_max_len(self.test_data)
-        print(f"Max length test data transcripts: {max_len_test}")
+        print(f"\tMax length test data transcripts: {max_len_test}")
         self.max_len = max(max_len_training, max_len_validation, max_len_test)
-        print(f"Max length for padding: {self.max_len}")
+        print(f"\tMax length for padding: {self.max_len}")
         # Encoding labels
+        print("\tEncoding data and build dataloader")
         self.encoded_labels = self.label_encoding()
+        print("\t\tBuild train dataloader")
         encoded_data = self.transcript_encoding(self.train_data)
         self.trainDataLoader=loaders.get_dataloader(
             input_ids=encoded_data['input_ids'],
@@ -68,6 +73,7 @@ class Runner():
             batch_size=self.batch,
             type='random'
         )
+        print("\t\tBuild validation dataloader")
         encoded_data = self.transcript_encoding(self.validation_data)
         self.validationDataLoader=loaders.get_dataloader(
             input_ids=encoded_data['input_ids'],
@@ -79,6 +85,7 @@ class Runner():
             batch_size=self.batch,
             type='sequential'
         )
+        print("\t\tBuild test dataloader")
         encoded_data = self.transcript_encoding(self.test_data)
         self.testDataLoader=loaders.get_dataloader(
             input_ids=encoded_data['input_ids'],
@@ -93,6 +100,7 @@ class Runner():
 
         self.total_step = len(self.trainDataLoader) + self.epochs
 
+        print("\tBuild or load BERT model")
         if model==None:
             print(f"Actions classes: {len(self.le.classes_)} - Attributes classes: {len(self.mlb.classes_)}")
             self.model=CustomBERTModel(len(self.le.classes_), len(self.mlb.classes_))
@@ -114,6 +122,12 @@ class Runner():
 
         # Run identifier
         self.timestr = time.strftime("%Y%m%d-%H%M%S")
+
+        # Class action weights for cross entropy loss function (cost-sensitive learning for class imbalance problem)
+        self.weights = torch.tensor(
+            [FLAGS.w_AddToCart, FLAGS.w_None, FLAGS.w_SearchDatabase, FLAGS.w_SearchMemory, FLAGS.w_SpecifyInfo],
+            device=self.device
+        )
 
     def compute_max_len(self, df):
         """Compute tokenized transcripts max length
@@ -283,7 +297,7 @@ class Runner():
                 result = self.model(b_input_ids,
                                     mask=b_input_mask)
 
-                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
+                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes, self.weights)
 
                 # Accumulate the training loss over all of the batches so that we can
                 # calculate the average loss at the end. `loss` is a Tensor containing a
@@ -379,7 +393,7 @@ class Runner():
                 # Get the loss and "logits" output by the model. The "logits" are the
                 # output values prior to applying an activation function like the
                 # softmax.
-                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes)
+                loss = md_utils.loss_fn(result, b_labels_actions, b_labels_attributes, self.weights)
 
                 # Accumulate the validation loss.
                 total_eval_loss += loss.item()

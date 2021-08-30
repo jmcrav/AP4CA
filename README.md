@@ -128,13 +128,3 @@ transcripts from the preceding turn of the same dialog.
 
 `num_of_samples` Number of samples to be generated. If the number is great than one, the possible `seed` argument is 
 ignored to guarantee that every sample is different from the other generated. Default: 1.
-
-## TODO
-- Implementation for TPU computing
-
-## Contact
-
-
-## License
-This package is released under the MIT License
-
